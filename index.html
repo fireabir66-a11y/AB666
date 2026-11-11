@@ -1,257 +1,137 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AB666 | Practice Gaming</title>
-  <style>*{box-sizing:border-box}body{margin:0;background:#080808;color:#eee;font-family:Arial,sans-serif}header{height:72px;background:#101010;border-bottom:1px solid #3a2b00;display:flex;align-items:center;padding:0 5%;gap:35px;position:sticky;top:0;z-index:3}.logo{font-size:28px;font-weight:900;color:#f6c542;letter-spacing:2px}.logo span{color:#fff}nav{display:flex;gap:8px;flex:1}button{border:0;border-radius:8px;padding:11px 16px;background:#1b1b1b;color:#eee;cursor:pointer;font-weight:700}.gold{background:linear-gradient(135deg,#f9d76a,#b77a08);color:#111}.danger{background:#642222}.balance{background:#171717;padding:10px 14px;border-radius:10px;color:#f6c542}.page{display:none;padding:32px 6%;max-width:1400px;margin:auto}.page.active{display:block}.hero{min-height:380px;border-radius:20px;padding:60px;background:radial-gradient(circle at 70% 40%,#4b3200,#16100a 40%,#101010 75%);display:flex;align-items:center}.hero h1{font-size:54px;margin:8px 0}.hero h1 span{color:#f6c542}.tag{color:#f6c542;letter-spacing:3px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px}.card{min-height:160px;border-radius:16px;padding:20px;background:linear-gradient(145deg,#202020,#111);border:1px solid #3b310f;display:flex;flex-direction:column;justify-content:end;position:relative;overflow:hidden}.card:before{content:attr(data-icon);position:absolute;top:10px;right:14px;font-size:60px;opacity:.8}.card h3{margin:0 0 6px}.muted{color:#aaa}.gamebox,.panel{background:#121212;border:1px solid #32280c;border-radius:16px;padding:25px;margin-top:20px}.stage{height:280px;border-radius:14px;background:radial-gradient(circle,#202020,#080808);display:flex;align-items:center;justify-content:center;font-size:64px;margin:20px 0}.controls{display:flex;gap:12px}.controls input,.panel input,.panel select{padding:12px;border-radius:8px;border:1px solid #444;background:#0a0a0a;color:white;margin:6px;width:100%}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.notice{padding:12px;background:#29210a;border-radius:10px;color:#f6c542}.back{margin-bottom:10px}#logs{max-height:250px;overflow:auto;color:#bbb;font-size:14px}footer{text-align:center;padding:30px;color:#777}@media(max-width:700px){header{gap:10px;padding:0 12px}.balance{display:none}.hero h1{font-size:38px}.admin-grid{grid-template-columns:1fr}.page{padding:22px 4%}.controls{flex-direction:column}}
-/* Animated Crash Game */
-.crash-stage{height:380px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 65%,#1b1608 0,#0b0b0b 55%,#050505 100%);border:1px solid #5a4308}
-.crash-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(246,197,66,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(246,197,66,.08) 1px,transparent 1px);background-size:40px 40px;transform:perspective(500px) rotateX(55deg) scale(1.5);transform-origin:center bottom}
-.crash-status{position:absolute;top:18px;left:50%;transform:translateX(-50%);font-size:16px;letter-spacing:2px;color:#f6c542;font-weight:bold}
-.multiplier{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);font-size:70px;font-weight:900;text-shadow:0 0 28px rgba(246,197,66,.4);z-index:2}
-.plane-wrap{position:absolute;left:8%;bottom:15%;font-size:55px;z-index:3;filter:drop-shadow(0 0 14px rgba(246,197,66,.65))}
-.flight-trail{position:absolute;height:4px;width:0;background:linear-gradient(90deg,transparent,#f6c542,#fff);border-radius:50%;opacity:.9;z-index:1}
-.crash-panel{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
-.cashout{background:#f6c542;color:#111;font-size:16px}
-@media(max-width:700px){.crash-stage{height:330px}.multiplier{font-size:52px}.crash-panel{grid-template-columns:1fr}.plane-wrap{font-size:44px}}
-
-
-/* Multi-game playable interfaces */
-.mines-board{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;width:min(430px,95%);margin:auto}
-.mine-cell{aspect-ratio:1;border:1px solid #4a3b13;border-radius:10px;background:#181818;color:#fff;font-size:24px}
-.mine-cell.safe{background:#26300f}.mine-cell.bomb{background:#5b1717}
-.plinko-board{position:relative;width:min(520px,95%);height:300px;margin:auto;background:linear-gradient(#111,#050505);border-radius:14px;overflow:hidden}
-.peg{position:absolute;width:10px;height:10px;border-radius:50%;background:#f6c542;box-shadow:0 0 8px #f6c542}
-.ball{position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 0 15px #f6c542;left:50%;top:10px;transition:all .35s}
-.wheel{width:260px;height:260px;border-radius:50%;margin:auto;background:conic-gradient(#f6c542 0 45deg,#222 45deg 90deg,#a66b00 90deg 135deg,#333 135deg 180deg,#f6c542 180deg 225deg,#222 225deg 270deg,#a66b00 270deg 315deg,#333 315deg);border:8px solid #5a4308;transition:transform 3s cubic-bezier(.12,.7,.1,1)}
-.big-number{font-size:90px;font-weight:900;color:#f6c542}
-.keno-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;width:min(620px,96%);margin:auto}
-.keno-cell{padding:8px;background:#1b1b1b;border:1px solid #4a3b13;border-radius:7px;text-align:center}
-.keno-cell.hit{background:#a66b00}.hilo-card{font-size:110px;min-height:160px}
-.slot-row{font-size:70px;letter-spacing:20px;background:#111;padding:25px;border-radius:14px}
-.roulette-num{font-size:100px;font-weight:bold}
-
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#004d4d">
+  <title>AB666 — Gaming Lounge</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header><div class="logo">AB<span>666</span></div><nav>
-    <button onclick="showPage('home')">Home</button>
-    <button onclick="showPage('games')">Games</button>
-    <button onclick="showPage('admin')">Admin</button>
-  </nav><div class="balance">🪙 <b id="balance">10000</b> Practice Coins</div></header>
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    <a class="brand" href="#" id="brandHome"><span class="brand-mark">♛</span> AB<span>666</span></a>
+    <div class="top-actions">
+      <button class="balance" id="balanceBtn">৳ <b id="balance">10,000</b></button>
+      <button class="avatar" id="memberBtn" aria-label="Member account">A</button>
+    </div>
+  </header>
 
-  <main>
-    <section id="home" class="page active">
-      <div class="hero"><div><p class="tag">PRACTICE GAMING PLATFORM</p><h1>PLAY BIG.<br><span>PLAY SMART.</span></h1><p>Premium AB666 gaming lobby with virtual practice coins.</p><button class="gold" onclick="showPage('games')">Explore Games</button></div></div>
-      <h2>🔥 Hot Games</h2><div id="homeGames" class="grid"></div>
-    </section>
+  <div class="announcement"><span>AB666</span> · Welcome to your gaming lounge <button id="closeNotice" aria-label="Close notice">×</button></div>
 
-    <section id="games" class="page"><h1>All Games</h1><p class="muted">All games use virtual practice coins only.</p><div id="gamesGrid" class="grid"></div></section>
-
-    <section id="game" class="page">
-      <button class="back" onclick="showPage('games')">← Back to Games</button>
-      <div class="gamebox"><h1 id="gameTitle">Game</h1><div id="gameStage" class="stage"></div>
-      <div class="controls"><input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">PLAY ROUND</button></div>
-      <p id="gameMessage"></p></div>
-    </section>
-
-    <section id="admin" class="page">
-      <h1>Admin Panel</h1><div class="notice">Demo / virtual-coin administration only.</div>
-      <div class="admin-grid">
-        <div class="panel"><h2>User Coin Management</h2>
-          <input id="username" placeholder="User name" value="Player1"/>
-          <input id="amount" type="number" placeholder="Coin amount" value="1000"/>
-          <button class="gold" onclick="changeCoins(1)">➕ Add Coins</button>
-          <button class="danger" onclick="changeCoins(-1)">➖ Remove Coins</button>
-          <p id="adminResult"></p>
+  <main id="app">
+    <section class="view active" id="homeView">
+      <div class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">THE AB666 EXPERIENCE</p>
+          <h1>PLAY YOUR<br><em>OWN WAY</em></h1>
+          <p>Explore games, track your play and enjoy the experience.</p>
+          <button class="primary-btn" data-go="hot">Explore Games <span>→</span></button>
         </div>
-        <div class="panel"><h2>Game Settings</h2>
-          <label>Game Difficulty</label><select id="difficulty"><option>Easy</option><option selected>Normal</option><option>Hard</option></select>
-          <button class="gold" onclick="saveSettings()">Save Settings</button>
-          <p class="muted">Difficulty is shown as a practice-game configuration.</p>
+        <div class="hero-art"><div class="gold-orbit"></div><div class="hero-crown">♛</div><div class="hero-chip">AB<br><small>666</small></div></div>
+      </div>
+
+      <div class="quick-actions">
+        <button class="quick-card" data-go="deposit"><span>＋</span><b>Deposit</b></button>
+        <button class="quick-card" data-go="withdraw"><span>↗</span><b>Withdraw</b></button>
+      </div>
+      <div class="category-strip">
+        <button data-go="hot">🔥 <span>Hot Games</span></button>
+        <button data-go="slots">▦ <span>Slots</span></button>
+        <button data-go="favorites">♥ <span>Favorites</span></button>
+      </div>
+      <div class="section-heading"><div><small>DISCOVER</small><h2>Hot Games</h2></div><button class="text-btn" data-go="hot">See all →</button></div>
+      <div class="game-grid home-grid" id="homeGames"></div>
+      <div class="section-heading"><div><small>MORE TO EXPLORE</small><h2>Mini Games</h2></div></div>
+      <div class="game-grid mini-grid" id="miniGames"></div>
+    </section>
+
+    <section class="view" id="categoryView">
+      <div class="page-title"><button class="back-btn" data-go="home">‹</button><h1 id="categoryTitle">Hot Games</h1></div>
+      <div class="search-row"><input id="gameSearch" placeholder="Game name" autocomplete="off"><span>⌕</span></div>
+      <div class="filter-row" id="filterRow">
+        <button class="filter active" data-filter="all">▦</button>
+        <button class="filter" data-filter="recent">◷</button>
+        <button class="filter" data-filter="favorites">♥</button>
+      </div>
+      <div class="game-grid" id="categoryGames"></div>
+    </section>
+
+    <section class="view" id="gameView">
+      <div class="page-title"><button class="back-btn" data-go="hot">‹</button><h1 id="gameTitle">Game</h1><span class="live-pill">PLAY</span></div>
+      <div class="game-stage">
+        <div class="game-stage-top"><span>AB666 GAME ROOM</span><span class="round-id" id="roundId">ROUND #0001</span></div>
+        <div id="gameArea" class="game-area"></div>
+        <div class="game-result" id="gameResult">Choose your play amount to begin.</div>
+        <div class="play-controls">
+          <label>Play amount <input type="number" id="betAmount" min="10" max="5000" value="100"></label>
+          <button class="primary-btn" id="playBtn">Play Round</button>
         </div>
       </div>
-      <div class="panel"><h2>Audit Log</h2><div id="logs"></div></div>
+      <p class="helper-note">This is a play-credit simulation. No real-money wagering or payouts.</p>
+    </section>
+
+    <section class="view" id="memberView">
+      <div class="page-title"><button class="back-btn" data-go="home">‹</button><h1>My Account</h1></div>
+      <div class="profile-card">
+        <div class="profile-avatar">A</div><div><span class="vip-tag">MEMBER</span><h2 id="profileName">AB666 Player</h2><p id="profileId">Player ID: AB-0001</p></div>
+        <div class="profile-balance"><small>PLAY CREDITS</small><strong>৳ <span id="profileBalance">10,000</span></strong></div>
+      </div>
+      <div class="member-grid">
+        <button data-go="history"><i>◷</i>Game History</button><button data-go="transactions"><i>▤</i>Transactions</button>
+        <button data-go="deposit"><i>＋</i>Deposit</button><button data-go="withdraw"><i>↗</i>Withdraw</button>
+        <button data-go="favorites"><i>♥</i>Favorites</button><button data-go="settings"><i>⚙</i>Settings</button>
+      </div>
+    </section>
+
+    <section class="view" id="formView">
+      <div class="page-title"><button class="back-btn" data-go="member">‹</button><h1 id="formTitle">Deposit</h1></div>
+      <div class="form-card"><p class="helper-note">Demo interface only. No real payment is processed.</p><label>Amount<input type="number" id="requestAmount" min="10" value="500"></label><label>Note<input id="requestNote" placeholder="Optional note"></label><button class="primary-btn" id="requestBtn">Submit demo request</button><p id="formMessage" class="form-message"></p></div>
+    </section>
+
+    <section class="view" id="historyView">
+      <div class="page-title"><button class="back-btn" data-go="member">‹</button><h1>Game History</h1></div><div class="list-card" id="historyList"></div>
+    </section>
+    <section class="view" id="transactionsView">
+      <div class="page-title"><button class="back-btn" data-go="member">‹</button><h1>Transactions</h1></div><div class="list-card" id="transactionList"></div>
+    </section>
+    <section class="view" id="settingsView">
+      <div class="page-title"><button class="back-btn" data-go="member">‹</button><h1>Settings</h1></div>
+      <div class="form-card"><label>Display name<input id="nameInput" value="AB666 Player"></label><button class="primary-btn" id="saveName">Save profile</button><p class="helper-note">Your demo profile is stored in this browser only.</p></div>
+    </section>
+    <section class="view" id="adminView">
+      <div class="page-title"><button class="back-btn" data-go="home">‹</button><h1>Admin Panel</h1></div>
+      <div id="adminLocked" class="form-card"><p>Enter the demo admin PIN to open local controls.</p><input type="password" id="adminPin" placeholder="Demo PIN"><button class="primary-btn" id="unlockAdmin">Unlock</button><p class="helper-note">Demo PIN: 666666. This front-end PIN is not secure for a live website.</p></div>
+      <div id="adminControls" class="admin-content hidden">
+        <div class="admin-stat"><small>LOCAL DEMO PLAYER</small><strong>AB666 Player</strong><span id="adminBalance">৳ 10,000</span></div>
+        <div class="form-card"><h3>Manage play credits</h3><label>Amount<input type="number" id="adminAmount" value="500"></label><div class="admin-buttons"><button class="primary-btn" id="addCredits">＋ Add credits</button><button class="danger-btn" id="removeCredits">− Remove credits</button></div><p id="adminMessage" class="form-message"></p></div>
+        <div class="form-card"><h3>Game settings</h3><p class="helper-note">Enable or disable games. Outcomes remain generated by the game logic and cannot be secretly adjusted.</p><div id="gameToggles"></div></div>
+        <div class="form-card"><button class="danger-btn" id="resetDemo">Reset demo data</button></div>
+      </div>
     </section>
   </main>
-  <footer>© AB666 • Virtual Practice Coins • Demo Project</footer>
-<script>const games=[{name:'Sky Rush',icon:'🚀',type:'crash'},{name:'Mine Quest',icon:'💣',type:'mines'},{name:'Ball Drop',icon:'🔴',type:'plinko'},{name:'Lucky Wheel',icon:'🎡',type:'wheel'},{name:'Dice Rush',icon:'🎲',type:'dice'},{name:'Lucky Numbers',icon:'🔢',type:'keno'},{name:'Hi-Lo',icon:'🎯',type:'hilo'},{name:'Blackjack',icon:'🃏',type:'blackjack'},{name:'Roulette',icon:'🎰',type:'roulette'},{name:'Golden Slots',icon:'💎',type:'slots'}];let currentGame=null;let state=JSON.parse(localStorage.getItem('ab666')||'{"balance":10000,"users":{"Player1":10000},"logs":[]}');function save(){localStorage.setItem('ab666',JSON.stringify(state));renderBalance();renderLogs()}function renderBalance(){document.getElementById('balance').textContent=state.balance.toLocaleString()}function cards(target,limit=games.length){document.getElementById(target).innerHTML=games.slice(0,limit).map(g=>`<div class="card" data-icon="${g.icon}"><h3>${g.name}</h3><p class="muted">Practice Game</p><button class="gold" onclick="openGame('${g.type}')">Play</button></div>`).join('')}function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active')}function openGame(type){currentGame=games.find(g=>g.type===type);document.getElementById('gameTitle').textContent=currentGame.name;document.getElementById('gameStage').textContent=currentGame.icon;document.getElementById('gameMessage').textContent='Set your practice coin amount and play.';showPage('game')}function playCurrent(){let bet=Math.max(10,Number(document.getElementById('bet').value)||10);if(state.balance<bet){document.getElementById('gameMessage').textContent='Not enough practice coins.';return}let win=Math.random()<.48;let change=win?Math.round(bet*(1+Math.random()*2)):-bet;state.balance+=change;state.logs.unshift(`${new Date().toLocaleString()} • ${currentGame.name}: ${change>0?'+':''}${change} practice coins`);document.getElementById('gameMessage').textContent=change>0?`🎉 You won ${change} practice coins!`:`Round complete: -${bet} practice coins.`;save()}function changeCoins(sign){let u=document.getElementById('username').value.trim()||'Player1',a=Math.abs(Number(document.getElementById('amount').value)||0);state.users[u]=(state.users[u]||0)+sign*a;if(u==='Player1')state.balance=state.users[u];state.logs.unshift(`${new Date().toLocaleString()} • ADMIN ${sign>0?'added':'removed'} ${a} virtual coins ${sign>0?'to':'from'} ${u}`);document.getElementById('adminResult').textContent=`${u}: ${state.users[u].toLocaleString()} coins`;save()}function saveSettings(){state.logs.unshift(`${new Date().toLocaleString()} • Admin saved difficulty: ${document.getElementById('difficulty').value}`);save()}function renderLogs(){document.getElementById('logs').innerHTML=state.logs.map(x=>`<div>• ${x}</div>`).join('')||'No activity yet.'}cards('homeGames',6);cards('gamesGrid');save();</script>
-<script>
-let crashTimer=null, crashRunning=false, crashMultiplier=1, crashPoint=0;
 
-function openGame(type){
-  currentGame=games.find(g=>g.type===type);
-  document.getElementById('gameTitle').textContent=currentGame.name;
-  const stage=document.getElementById('gameStage');
-  if(crashTimer){clearInterval(crashTimer);crashTimer=null;}
-  crashRunning=false;
-  if(type==='crash'){
-    stage.className='stage crash-stage';
-    stage.innerHTML='<div class="crash-grid"></div><div class="crash-status" id="crashStatus">READY FOR TAKEOFF</div><div class="multiplier" id="multiplier">1.00x</div><div class="flight-trail" id="trail"></div><div class="plane-wrap" id="plane">✈️</div>';
-    document.querySelector('.controls').className='controls crash-panel';
-    document.querySelector('.controls').innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold cashout" id="crashBtn" onclick="playCurrent()">START FLIGHT</button>';
-    document.getElementById('gameMessage').textContent='Place your practice bet and start the flight.';
-  } else {
-    stage.className='stage';
-    stage.textContent=currentGame.icon;
-    document.querySelector('.controls').className='controls';
-    document.querySelector('.controls').innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">PLAY ROUND</button>';
-    document.getElementById('gameMessage').textContent='Set your practice coin amount and play.';
-  }
-  showPage('game');
-}
+  <nav class="bottom-nav">
+    <button class="active" data-go="home"><span>⌂</span>Home</button>
+    <button data-go="hot"><span>♨</span>Games</button>
+    <button class="center-nav" data-go="member"><span>♛</span>Member</button>
+    <button data-go="favorites"><span>♥</span>Saved</button>
+    <button data-go="admin"><span>⚙</span>Admin</button>
+  </nav>
 
-function playCurrent(){
-  if(currentGame && currentGame.type==='crash'){startCrash();return;}
-  let bet=Math.max(10,Number(document.getElementById('bet').value)||10);
-  if(state.balance<bet){document.getElementById('gameMessage').textContent='Not enough practice coins.';return}
-  let win=Math.random()<.48;
-  let change=win?Math.round(bet*(1+Math.random()*2)):-bet;
-  state.balance+=change;
-  state.logs.unshift(`${new Date().toLocaleString()} • ${currentGame.name}: ${change>0?'+':''}${change} practice coins`);
-  document.getElementById('gameMessage').textContent=change>0?`You won ${change} practice coins!`:`Round complete: -${bet} practice coins.`;
-  save();
-}
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head"><div class="brand"><span class="brand-mark">♛</span> AB<span>666</span></div><button id="closeDrawer">×</button></div>
+    <div class="drawer-grid">
+      <button data-go="hot">🔥<b>Hot Games</b></button><button data-go="member">♙<b>Member</b></button>
+      <button data-go="favorites">♥<b>Favorites</b></button><button data-go="promotion">✦<b>Promotion</b></button>
+      <button data-go="slots">▦<b>Slots</b></button><button data-go="history">◷<b>Game History</b></button>
+      <button data-go="sports">⚽<b>Sports</b></button><button data-go="admin">⚙<b>Admin Panel</b></button>
+      <button data-go="settings">☷<b>Settings</b></button><button data-go="transactions">▤<b>Transactions</b></button>
+    </div>
+    <p class="drawer-foot">AB666 · Play-credit demo</p>
+  </aside>
 
-function startCrash(){
-  if(crashRunning)return;
-  const bet=Math.max(10,Number(document.getElementById('bet').value)||10);
-  if(state.balance<bet){document.getElementById('gameMessage').textContent='Not enough practice coins.';return}
-  crashRunning=true;crashMultiplier=1;crashPoint=1.4+Math.random()*4.6;
-  const plane=document.getElementById('plane'),mult=document.getElementById('multiplier');
-  const status=document.getElementById('crashStatus'),trail=document.getElementById('trail');
-  const btn=document.getElementById('crashBtn');
-  btn.textContent='FLYING...';btn.disabled=true;
-  status.textContent='FLIGHT IN PROGRESS';
-  state.balance-=bet;save();
-  const start=Date.now();
-  crashTimer=setInterval(()=>{
-    const elapsed=(Date.now()-start)/1000;
-    crashMultiplier=1+elapsed*.55+elapsed*elapsed*.10;
-    mult.textContent=crashMultiplier.toFixed(2)+'x';
-    const progress=Math.min(1,elapsed/7);
-    const x=8+progress*70,y=15+progress*55;
-    plane.style.left=x+'%';plane.style.bottom=y+'%';
-    trail.style.left='8%';trail.style.bottom='16%';trail.style.width=Math.max(0,x-8)+'%';
-    trail.style.transform='rotate(-22deg)';
-    if(crashMultiplier>=crashPoint){
-      clearInterval(crashTimer);crashTimer=null;crashRunning=false;
-      plane.textContent='💥';mult.textContent='CRASHED '+crashPoint.toFixed(2)+'x';
-      mult.style.color='#ff5a3c';status.textContent='ROUND OVER';
-      document.getElementById('gameMessage').textContent=`Flight crashed at ${crashPoint.toFixed(2)}x. Practice bet lost.`;
-      state.logs.unshift(`${new Date().toLocaleString()} • Sky Rush crashed at ${crashPoint.toFixed(2)}x`);
-      save();
-      setTimeout(()=>{btn.disabled=false;btn.textContent='START NEXT FLIGHT';mult.style.color='';plane.textContent='✈️';},1200);
-    }
-  },50);
-}
-</script>
-
-
-<script>
-let mines=[], minesBet=0, minesOpen=0, currentMultiplier=1;
-
-function openGame(type){
-  currentGame=games.find(g=>g.type===type);
-  document.getElementById('gameTitle').textContent=currentGame.name;
-  const stage=document.getElementById('gameStage');
-  const controls=document.querySelector('.controls');
-  if(crashTimer){clearInterval(crashTimer);crashTimer=null;}
-  crashRunning=false;
-  controls.className='controls crash-panel';
-
-  if(type==='crash'){
-    stage.className='stage crash-stage';
-    stage.innerHTML='<div class="crash-grid"></div><div class="crash-status" id="crashStatus">READY FOR TAKEOFF</div><div class="multiplier" id="multiplier">1.00x</div><div class="flight-trail" id="trail"></div><div class="plane-wrap" id="plane">✈️</div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold cashout" id="crashBtn" onclick="playCurrent()">START FLIGHT</button>';
-  } else if(type==='mines'){
-    stage.className='stage';stage.innerHTML='<div class="mines-board" id="minesBoard"></div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="startMines()">START MINES</button><button class="gold" onclick="cashoutMines()">CASH OUT</button>';
-  } else if(type==='plinko'){
-    stage.className='stage';stage.innerHTML='<div class="plinko-board" id="plinko"><div class="ball" id="ball"></div></div>';
-    buildPlinko();controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">DROP BALL</button>';
-  } else if(type==='wheel'){
-    stage.className='stage';stage.innerHTML='<div class="wheel" id="wheel"></div><p>Spin for a practice multiplier</p>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">SPIN WHEEL</button>';
-  } else if(type==='dice'){
-    stage.className='stage';stage.innerHTML='<div class="big-number" id="diceNum">?</div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">ROLL DICE</button>';
-  } else if(type==='keno'){
-    stage.className='stage';stage.innerHTML='<div class="keno-grid" id="kenoGrid"></div>';
-    buildKeno();controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">DRAW NUMBERS</button>';
-  } else if(type==='hilo'){
-    stage.className='stage';stage.innerHTML='<div class="hilo-card" id="hiloCard">7</div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="hilo(true)">HIGHER</button><button class="gold" onclick="hilo(false)">LOWER</button>';
-  } else if(type==='blackjack'){
-    stage.className='stage';stage.innerHTML='<div class="big-number" id="bj">🂡</div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">DEAL</button>';
-  } else if(type==='roulette'){
-    stage.className='stage';stage.innerHTML='<div class="roulette-num" id="rouletteNum">●</div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">SPIN ROULETTE</button>';
-  } else {
-    stage.className='stage';stage.innerHTML='<div class="slot-row" id="slots">💎 🍒 ⭐</div>';
-    controls.innerHTML='<input id="bet" type="number" value="100" min="10"/><button class="gold" onclick="playCurrent()">SPIN SLOTS</button>';
-  }
-  document.getElementById('gameMessage').textContent='Virtual practice coins only.';
-  showPage('game');
-}
-
-function validBet(){
- const bet=Math.max(10,Number(document.getElementById('bet').value)||10);
- if(state.balance<bet){document.getElementById('gameMessage').textContent='Not enough practice coins.';return null}
- state.balance-=bet;save();return bet;
-}
-function payout(bet,mult,label){
- const won=Math.round(bet*mult);state.balance+=won;
- document.getElementById('gameMessage').textContent=`${label} • ${won} practice coins`;
- state.logs.unshift(`${new Date().toLocaleString()} • ${currentGame.name}: ${label}`);
- save();
-}
-function playCurrent(){
- if(currentGame.type==='crash'){startCrash();return}
- const bet=validBet();if(!bet)return;
- if(currentGame.type==='plinko'){
-   const ball=document.getElementById('ball');let x=15+Math.random()*70;
-   ball.style.left=x+'%';ball.style.top='260px';
-   setTimeout(()=>payout(bet,[0,1.2,1.8,2.5][Math.floor(Math.random()*4)],'Plinko round complete'),450);
- } else if(currentGame.type==='wheel'){
-   const deg=1440+Math.random()*1440;document.getElementById('wheel').style.transform=`rotate(${deg}deg)`;
-   setTimeout(()=>payout(bet,[0,1,1.5,2,3][Math.floor(Math.random()*5)],'Wheel stopped'),3000);
- } else if(currentGame.type==='dice'){
-   const n=1+Math.floor(Math.random()*6);document.getElementById('diceNum').textContent=n;
-   payout(bet,n>=4?1.8:0,'Dice: '+n);
- } else if(currentGame.type==='keno'){
-   document.querySelectorAll('.keno-cell').forEach(x=>x.classList.remove('hit'));
-   let hits=0;for(let i=0;i<10;i++){let n=Math.floor(Math.random()*40)+1;let el=document.querySelector(`[data-k="${n}"]`);if(el){el.classList.add('hit');hits++;}}
-   payout(bet,hits>=7?2.5:hits>=5?1.3:0,`Keno hits: ${hits}`);
- } else if(currentGame.type==='blackjack'){
-   let score=15+Math.floor(Math.random()*8);document.getElementById('bj').textContent=score;
-   payout(bet,score>=19?2:score>=17?1.3:0,'Blackjack score: '+score);
- } else if(currentGame.type==='roulette'){
-   let n=Math.floor(Math.random()*37);document.getElementById('rouletteNum').textContent=n;
-   payout(bet,n%2===0?1.8:0,'Roulette number: '+n);
- } else if(currentGame.type==='slots'){
-   const icons=['💎','🍒','⭐','🍀','🔔'];let a=icons[Math.floor(Math.random()*5)],b=icons[Math.floor(Math.random()*5)],c=icons[Math.floor(Math.random()*5)];
-   document.getElementById('slots').textContent=`${a} ${b} ${c}`;
-   payout(bet,a===b&&b===c?5:a===b||b===c?1.5:0,'Slots result');
- }
-}
-function buildPlinko(){const p=document.getElementById('plinko');for(let r=0;r<7;r++)for(let c=0;c<=r;c++){let x=document.createElement('i');x.className='peg';x.style.left=(50-r*5+c*10)+'%';x.style.top=(45+r*32)+'px';p.appendChild(x)}}
-function buildKeno(){const g=document.getElementById('kenoGrid');g.innerHTML='';for(let i=1;i<=40;i++){let d=document.createElement('div');d.className='keno-cell';d.dataset.k=i;d.textContent=i;g.appendChild(d)}}
-function startMines(){
- const bet=validBet();if(!bet)return;minesBet=bet;minesOpen=0;currentMultiplier=1;
- mines=Array(25).fill(false);let ids=[];while(ids.length<5){let i=Math.floor(Math.random()*25);if(!ids.includes(i))ids.push(i)}ids.forEach(i=>mines[i]=true);
- const b=document.getElementById('minesBoard');b.innerHTML='';
- for(let i=0;i<25;i++){let x=document.createElement('button');x.className='mine-cell';x.dataset.i=i;x.onclick=()=>openMine(x);b.appendChild(x)}
- document.getElementById('gameMessage').textContent='Find gems and cash out before a mine!';
-}
-function openMine(el){if(el.disabled||!mines.length)return;let i=+el.dataset.i;el.disabled=true;
- if(mines[i]){el.textContent='💣';el.classList.add('bomb');document.getElementById('gameMessage').textContent='Mine hit! Round over.';mines=[]}
- else{el.textContent='💎';el.classList.add('safe');minesOpen++;currentMultiplier=1+minesOpen*.18;document.getElementById('gameMessage').textContent=`Safe! ${currentMultiplier.toFixed(2)}x multiplier`}
-}
-function cashoutMines(){if(!mines.length||minesOpen===0)return;let won=Math.round(minesBet*currentMultiplier);state.balance+=won;document.getElementById('gameMessage').textContent=`Cashed out ${won} practice coins!`;state.logs.unshift(`${new Date().toLocaleString()} • Mine Quest cashout ${won}`);mines=[];save()}
-function hilo(high){const bet=validBet();if(!bet)return;const old=+document.getElementById('hiloCard').textContent,newN=1+Math.floor(Math.random()*13);document.getElementById('hiloCard').textContent=newN;let win=high?newN>old:newN<old;payout(bet,win?1.8:0,win?'Correct!':'Wrong!')}
-</script>
-
-</body></html>
+  <script src="app.js"></script>
+</body>
+</html>
