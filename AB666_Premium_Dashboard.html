@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#031411">
+<title>AB666 — Premium</title>
+<style>
+:root{--bg:#031411;--deep:#041b18;--panel:#082521;--gold:#e9bd4b;--gold2:#ffe8a0;--teal:#00b99d;--muted:#b7c5bd;--white:#f7f5ed}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(ellipse at 50% 0%,#104239 0,#061d19 38%,#020e0c 100%);padding-bottom:88px}
+button{font:inherit;color:inherit}
+button:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+.topbar{height:82px;display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:8px;padding:0 16px;background:linear-gradient(90deg,#031512,#06221e 55%,#031512);border-bottom:1px solid #80672d}
+.hamb{border:0;background:none;color:var(--gold);font-size:31px;padding:0;text-align:left}
+.logo{display:flex;align-items:center;justify-content:center;gap:9px;color:var(--gold);font-size:clamp(27px,7vw,39px);font-weight:900;letter-spacing:1px;text-shadow:0 0 18px #b58a2b55}
+.logoMark{font-size:32px;line-height:1}
+.user{display:flex;align-items:center;gap:8px;border:1px solid #9b8242;border-radius:28px;padding:7px 10px;background:#061b18;min-width:0}
+.userIcon{height:38px;width:38px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#f8df91,#9b711d);color:#14231d;font-size:20px;flex-shrink:0}
+.user b{display:block;font-size:12px;white-space:nowrap}.user small{font-size:10px;color:#b9c6bd;white-space:nowrap}
+.wallet{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:17px 16px 14px;align-items:center}
+.balance{min-height:75px;border:1px solid #9b8242;border-radius:22px;background:linear-gradient(145deg,#09231f,#020e0c);display:flex;flex-direction:column;justify-content:center;align-items:center;box-shadow:inset 0 0 18px #c49b3210}
+.balance small{font-size:10px;letter-spacing:.8px;color:#b8c4bd;margin-bottom:7px}.balance strong{font-size:clamp(17px,4.3vw,23px);color:var(--gold2);letter-spacing:.4px}
+.action{height:58px;border:1px solid #f9d66c;border-radius:32px;background:linear-gradient(180deg,#ffe27d,#d99e22);color:#2d2107;font-size:clamp(12px,3.2vw,16px);font-weight:800;box-shadow:0 5px 13px #0007,inset 0 1px 0 #fff8}
+.action.out{border-color:#23d8be;background:linear-gradient(180deg,#08c8aa,#007568);color:#f3fffc}
+.hero{margin:10px 16px 0;min-height:188px;border:1.5px solid var(--gold);border-radius:22px;overflow:hidden;position:relative;background:radial-gradient(ellipse at 77% 50%,#176c5b 0,#0b3932 30%,#041a17 72%);box-shadow:0 7px 24px #0007,inset 0 0 35px #00a88d20}
+.hero:before{content:"";position:absolute;width:240px;height:240px;border:1px solid #d9b64d55;border-radius:50%;right:-72px;top:-40px;box-shadow:0 0 0 16px #e7bf4b0b,0 0 0 34px #e7bf4b09}
+.hero:after{content:"";position:absolute;right:22px;bottom:5px;width:116px;height:105px;opacity:.34;background:linear-gradient(135deg,transparent 48%,#d6ad47 49%,#d6ad47 51%,transparent 52%);clip-path:polygon(50% 0,61% 36%,100% 22%,73% 56%,93% 100%,50% 72%,7% 100%,27% 56%,0 22%,39% 36%)}
+.heroContent{position:relative;z-index:1;padding:28px 22px;max-width:72%}
+.eyebrow{font-size:12px;letter-spacing:3px;font-weight:800;color:var(--gold2)}
+.hero h1{font-size:clamp(38px,10vw,58px);line-height:.98;margin:10px 0 8px;color:#ffe69b;letter-spacing:1px;text-shadow:0 4px 15px #0009}
+.hero p{font-size:12px;font-weight:800;letter-spacing:2px;color:#e0e9df;margin:0}
+.heroCrown{position:absolute;right:22px;bottom:24px;color:#f1cf70;font-size:74px;line-height:1;text-shadow:0 5px 15px #0008}
+.dots{display:flex;justify-content:center;gap:9px;padding:13px 0 17px}.dots i{width:9px;height:9px;border-radius:50%;background:#52635c}.dots i:first-child{background:var(--gold)}
+.quick{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;padding:0 16px 20px}
+.quick button{height:91px;border:1px solid #a58b4b;border-radius:17px;background:linear-gradient(155deg,#0c3831,#041713);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:10px;box-shadow:inset 0 0 16px #00a88b12}
+.quick .qicon{font-size:25px;color:var(--gold);line-height:1}.quick .qname{font-size:clamp(9px,2.6vw,12px);font-weight:700;color:#f1eee2;white-space:nowrap}
+.section{margin:2px 16px 14px;padding:14px 16px;border:1px solid var(--gold);border-radius:18px;background:linear-gradient(100deg,#0d302b,#061b18);display:flex;align-items:center;justify-content:space-between;color:var(--gold);font-weight:800;box-shadow:0 4px 14px #0005}
+.sectionTitle{font-size:clamp(17px,4.6vw,22px);display:flex;align-items:center;gap:10px}.star{font-size:25px}
+.view{border:0;background:none;color:var(--gold2);font-weight:800;font-size:12px;white-space:nowrap}
+.games{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 16px}
+.game{height:138px;border:1px solid #d4a83d;border-radius:18px;position:relative;overflow:hidden;text-align:left;padding:12px;background:radial-gradient(circle at 75% 35%,#1b66a0,#102c56 52%,#07182b 100%);box-shadow:0 5px 13px #0008}
+.game:nth-child(2){background:radial-gradient(circle at 75% 30%,#a86a24,#49301c 48%,#171512 100%)}
+.game:nth-child(3){background:radial-gradient(circle at 75% 30%,#216ba4,#123a67 50%,#07182a 100%)}
+.game:nth-child(4){background:radial-gradient(circle at 75% 30%,#66788a,#2c3d50 50%,#0b1721 100%)}
+.game:before{content:"";position:absolute;inset:0;background:linear-gradient(130deg,transparent 35%,#fff1 36%,transparent 60%);pointer-events:none}
+.gameArt{position:absolute;right:10px;top:8px;font-size:60px;filter:drop-shadow(0 7px 7px #0009)}
+.gameName{position:absolute;left:13px;bottom:13px;font-size:20px;font-weight:900;font-style:italic;letter-spacing:1px;color:#ffe18a;text-shadow:0 3px 5px #000}
+.bottom{position:fixed;z-index:5;left:0;right:0;bottom:0;height:78px;padding:7px 8px max(7px,env(safe-area-inset-bottom));display:flex;justify-content:space-around;align-items:center;background:#031713f5;border-top:1px solid #8d7134;box-shadow:0 -7px 20px #0008}
+.nav{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:5px;color:#d7d9cf;font-size:11px;min-width:54px}.navIcon{font-size:23px;color:var(--gold);line-height:1}
+.nav.member{width:70px;height:70px;border:1px solid var(--gold);border-radius:50%;background:radial-gradient(#174a3f,#031512);margin-top:-27px;color:var(--gold2);box-shadow:0 0 16px #0009;justify-content:center}.nav.member .navIcon{font-size:25px}
+.note{text-align:center;color:#8fa59b;font-size:10px;padding:16px 10px 22px}
+.shade{position:fixed;inset:0;background:#000b;z-index:8;display:none}.shade.show{display:block}
+.drawer{position:fixed;z-index:9;left:0;top:0;bottom:0;width:min(315px,85vw);padding:20px 15px;background:linear-gradient(155deg,#0b302a,#031310);border-right:1px solid var(--gold);transform:translateX(-105%);transition:transform .25s;overflow:auto}.drawer.show{transform:translateX(0)}
+.drawerHead{display:flex;justify-content:space-between;align-items:center;color:var(--gold);font-size:22px;font-weight:900;margin-bottom:18px}.drawerHead button{border:0;background:none;color:white;font-size:28px}
+.drawerGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.drawerGrid button{height:75px;border:1px solid #816b37;border-radius:13px;background:#08231e;color:#f5ebc9;font-size:13px;font-weight:700}.drawerGrid span{display:block;font-size:22px;color:var(--gold);margin-bottom:5px}
+@media(min-width:600px){body{max-width:480px;margin:auto;border-left:1px solid #28453d;border-right:1px solid #28453d}.bottom{left:50%;right:auto;transform:translateX(-50%);width:min(480px,100%)}.games{grid-template-columns:repeat(4,1fr)}.game{height:150px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+<button class="hamb" id="openMenu" aria-label="Open menu">☰</button>
+<div class="logo"><span class="logoMark">♛</span><span>AB666</span></div>
+<div class="user"><div class="userIcon">♟</div><div><b>Guest Member</b><small>ID: DEMO-001</small></div></div>
+</header>
+<section class="wallet">
+<div class="balance"><small>DEMO BALANCE</small><strong>2,580.00</strong></div>
+<button class="action" onclick="demoAction('Deposit')">↓ Deposit</button>
+<button class="action out" onclick="demoAction('Withdraw')">↑ Withdraw</button>
+</section>
+<section class="hero"><div class="heroContent"><div class="eyebrow">WELCOME TO</div><h1>AB666</h1><p>PLAY&nbsp; • &nbsp;ENJOY&nbsp; • &nbsp;EXPLORE</p></div><div class="heroCrown">♛</div></section>
+<div class="dots"><i></i><i></i><i></i><i></i></div>
+<section class="quick">
+<button onclick="go('Hot Games')"><span class="qicon">♨</span><span class="qname">Hot Games</span></button>
+<button onclick="go('Slots')"><span class="qicon">▣</span><span class="qname">Slots</span></button>
+<button onclick="go('Live Casino')"><span class="qicon">♠</span><span class="qname">Live Casino</span></button>
+<button onclick="go('Sports')"><span class="qicon">◉</span><span class="qname">Sports</span></button>
+<button onclick="go('Promotion')"><span class="qicon">♙</span><span class="qname">Promotion</span></button>
+</section>
+<div class="section"><div class="sectionTitle"><span class="star">★</span>Popular Games</div><button class="view" onclick="go('All Games')">VIEW ALL&nbsp; →</button></div>
+<section class="games">
+<button class="game" onclick="go('Crash')"><span class="gameArt">🚀</span><span class="gameName">CRASH</span></button>
+<button class="game" onclick="go('Mines')"><span class="gameArt">◆</span><span class="gameName">MINES</span></button>
+<button class="game" onclick="go('Plinko')"><span class="gameArt">●</span><span class="gameName">PLINKO</span></button>
+<button class="game" onclick="go('Dice')"><span class="gameArt">⚄</span><span class="gameName">DICE</span></button>
+</section>
+<p class="note">AB666 Demo Interface · Virtual practice credits only · No real-money transactions</p>
+<nav class="bottom">
+<button class="nav" onclick="go('Home')"><span class="navIcon">⌂</span>Home</button>
+<button class="nav" onclick="go('Favorites')"><span class="navIcon">♥</span>Favorites</button>
+<button class="nav member" onclick="go('Member')"><span class="navIcon">♛</span>Member</button>
+<button class="nav" onclick="go('History')"><span class="navIcon">◷</span>History</button>
+<button class="nav" onclick="go('Reward')"><span class="navIcon">♙</span>Reward</button>
+</nav>
+<div class="shade" id="shade" onclick="closeMenu()"></div>
+<aside class="drawer" id="drawer"><div class="drawerHead">AB666 MENU <button onclick="closeMenu()">×</button></div>
+<div class="drawerGrid">
+<button onclick="go('Hot Games')"><span>♨</span>Hot Games</button><button onclick="go('Invite Friends')"><span>♧</span>Invite Friends</button>
+<button onclick="go('Favorites')"><span>♥</span>Favorites</button><button onclick="go('Promotion')"><span>♙</span>Promotion</button>
+<button onclick="go('Slots')"><span>▣</span>Slots</button><button onclick="go('Reward Center')"><span>★</span>Reward Center</button>
+<button onclick="go('Live Casino')"><span>♠</span>Live Casino</button><button onclick="go('Manual Rebate')"><span>％</span>Manual Rebate</button>
+<button onclick="go('Sports')"><span>◉</span>Sports</button><button onclick="go('VIP')"><span>♛</span>VIP</button>
+<button onclick="go('E-sports')"><span>◈</span>E-sports</button><button onclick="go('Mission')"><span>✓</span>Mission</button>
+<button onclick="go('Poker')"><span>♣</span>Poker</button><button onclick="go('Language')"><span>文</span>Language</button>
+<button onclick="go('App Download')"><span>↓</span>App Download</button><button onclick="go('Fish')"><span>♧</span>Fish</button>
+</div></aside>
+<script>
+const drawer=document.getElementById('drawer'),shade=document.getElementById('shade');
+function openMenu(){drawer.classList.add('show');shade.classList.add('show')}
+function closeMenu(){drawer.classList.remove('show');shade.classList.remove('show')}
+document.getElementById('openMenu').addEventListener('click',openMenu);
+function go(name){closeMenu();alert(name+' section will be added in the next build step.')}
+function demoAction(name){alert(name+' is a demo-only button. Real-money transactions are not available.')}
+</script>
+</body>
+</html>
